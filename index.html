@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+         body {
+            background-image: url("contact.jpeg");
+            background-repeat:no-repeat;
+			background-attachment:fixed;
+			background-size:100% 100%;
+         }
+</style>
+</head>
+<body style=color:white;size=300%;font-family:arial;>
+<p id="C" style="text-align:left;font-size:400%;color:yellow;font-family:arial">CONTACT:</p>
+<p style="text-align:left;font-size:150%;color:gold;font-family:arial;">Amman Travels Office Address: </p>
+<p style="text-align:left;font-size:150%;color:lime;font-family:arial;">Amman Travels,<br> No.11,<br>  KS Complex,<br>  Opposite to diamond theatre,<br>Tiruppur-641-603,<br> TamilNadu.</p>
+<p style="text-align:left;font-size:150%;color:gold;font-family:arial;">Phone Number:</p>
+<p style="text-align:left;font-size:150%;color:lime;font-family:arial;"> 8072544136</p>
+<p style="text-align:left;font-size:150%;color:gold;font-family:arial;">Email:</p>
+<p style="text-align:left;font-size:150%;color:lime;font-family:arial;"> ammantravels96@gmail.com</p>
+</body>
+</html>
+<?php
+session_start();
+$dbhandle = mysqli_connect("localhost","root","")
+or die("Unable to connect to MySQL"); 
+echo ""; 
+
+$selected = mysqli_select_db($dbhandle, "registration")
+or die("Could not select examples");
+$_SESSION['message']='';
+if(isset($_REQUEST["submit"]))
+{
+    $firstName=$_REQUEST["firstName"];
+    $sql="select * from admin where firstName='$firstName'";
+    $result=mysqli_query($dbhandle,$sql);
+    if(mysqli_num_rows($result))
+    {
+		$_SESSION['firstName']=$firstName;
+        header("location:newpass1.php");
+    }
+    else{
+        echo '<script>alert("YOU ARE NOT AN ADMIN!")</script>';
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Password Reset PHP</title>
+	<link rel="stylesheet" href="main.css">
+</head>
+<body>
+	<form class="login-form" method="post">
+		<h2 class="form-title">RESET PASSWORD</h2>
+				<div class="form-group">
+			<label>Enter Your First Name</label>
+			<input type="text" name="firstName">
+		</div>
+		
+		<div class="form-group">
+			<button type="submit" name="submit" class="login-btn">Submit</button>
+		</div>
+		
+	</form>
+</body>
+</html>
+<?php
+
+$dbhandle = mysqli_connect("localhost","root","")
+or die("Unable to connect to MySQL"); 
+echo ""; 
+session_start();
+
+
+$selected = mysqli_select_db($dbhandle, "registration")
+or die("Could not select examples");
+$_SESSION['message']='';
+if(isset($_REQUEST["submit"]))
+{
+    $firstName=$_REQUEST["firstName"];
+    $password=$_REQUEST["password"];
+    $sql="select * from admin where firstName='$firstName' && password='$password'";
+    $result=mysqli_query($dbhandle,$sql);
+    if(mysqli_num_rows($result))
+    {
+		$_SESSION['firstName']=$firstName;
+        header("location:button.html");
+    }
+    else{
+        echo '<script>alert("WRONG CREDENTIALS !")</script>';
+    }
+
+}
+?>
+<?php
+session_start();
+$dbhandle = mysqli_connect("localhost","root","")
+or die("Unable to connect to MySQL"); 
+echo ""; 
+$selected = mysqli_select_db($dbhandle, "registration")
+or die("Could not select examples");
+$_SESSION['message']='';
+if(isset($_REQUEST["login"]))
+{
+	
+    $firstName=$_REQUEST["firstName"];
+	$password=$_REQUEST["password"];
+	$password1=$_REQUEST["password1"];
+	if($password==$password1){
+	$sql=mysqli_query($dbhandle,"UPDATE admin set password='$password' where firstName='$firstName'");
+    echo '<script>alert("YOUR PASSWORD HAS BEEN UPDATED!")</script>';
+	}
+	else
+	{
+		echo '<script>alert("RETYPE YOUR PASSWORD CORRECTLY!")</script>';
+	}
+		
+		
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Password Reset</title>
+	<link rel="stylesheet" href="main.css">
+</head>
+<body>
+	<form class="login-form" method="post">
+		<h2 class="form-title">PASSWORD RESET</h2>
+		
+		<div class="form-group">
+			<label>FIRST NAME</label>
+			<input type="text" name="firstName">
+		</div>
+		<div class="form-group">
+			<label>NEW PASSWORD</label>
+			<input type="password" name="password">
+		</div>
+		<div class="form-group">
+			<label>CONFIRM PASSWORD</label>
+			<input type="password" name="password1">
+		</div>
+		<div class="form-group">
+			<button type="submit" name="login" class="login-btn">Submit</button>
+		</div>
+		
+	</form>
+</body>
+</html>
+body {
+	background: #3b5998;
+	font-size: 1.1em;
+	font-family: sans-serif;
+}
+a {
+	text-decoration: none;
+}
+form {
+	width: 25%;
+	margin: 70px auto;
+	background: white;
+	padding: 10px;
+	border-radius: 3px;
+}
+h2.form-title {
+	text-align: center;
+}
+input {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 8px;
+}
+form .form-group {
+	margin: 10px auto;
+}
+form button {
+	width: 100%;
+	border: none;
+	color: white;
+	background: #3b5998;
+	padding: 15px;
+	border-radius: 5px;
+}
+.msg {
+	margin: 5px auto;
+	border-radius: 5px;
+	border: 1px solid red;
+	background: pink;
+	text-align: left;
+	color: brown;
+	padding: 10px;
+}
+<?php  
+ //filter.php  
+ if(isset($_POST["from_date"], $_POST["to_date"]))  
+ {  
+      $connect = mysqli_connect("localhost", "root", "", "registration");  
+      $output = '';  
+      $query = "  
+           SELECT * FROM register  
+           WHERE date BETWEEN '".$_POST["from_date"]."' AND '".$_POST["to_date"]."'  
+      ";  
+      $result = mysqli_query($connect, $query);  
+      $output .= '  
+           <table class="table table-bordered">  
+                <tr>  
+                     <th width="5%">Customer Name</th>  
+                     <th width="30%">Departure</th>  
+                     <th width="43%">Arrival</th>  
+                     <th width="10%">Date</th>  
+                     <th width="12%">Phone Number</th>  
+                     //<th width="15%">Email</th>  
+					 <th width="15%">Passengers</th>  
+                     
+                     
+                </tr>  
+      ';  
+      if(mysqli_num_rows($result) > 0)  
+      {  
+           while($row = mysqli_fetch_array($result))  
+           {  
+                $output .= '  
+                     <tr>  
+                          <td>'. $row["cun"] .'</td>  
+                          <td>'. $row["dep"] .'</td>  
+                          <td>'. $row["arri"] .'</td>  
+                          <td> '. $row["date"] .'</td>  
+                          <td>'. $row["pn"] .'</td> 
+                          //<td>'. $row["email"] .'</td> 
+						  <td>'. $row["pas"] .'</td> 
+                          
+
+                     </tr>  
+                ';  
+           }  
+      }  
+      else  
+      {  
+           $output .= '  
+                <tr>  
+                     <td colspan="5">No Order Found</td>  
+                </tr>  
+           ';  
+      }  
+      $output .= '</table>';  
+      echo $output;  
+ }  
+ ?>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    
+body,html {font-family: Arial, Helvetica, sans-serif;height:100%;margin:0;background-image: url("image.jpeg");background-repeat: no-repeat;background-size: cover;}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #18801c;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 30%;
+  border-radius: 40%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: rgb(209, 10, 10);
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+.button
+{
+  background-color: #17ffff; 
+  border: none;
+  color: #ff6666;
+  padding: 20px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 2px 1px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+</style>
+</head>
+<body>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<center><button class="button" onclick="document.getElementById('id01').style.display='block'" style="width:auto;"><b>LOGIN</b></button></center>
+
+<div id="id01" class="modal">
+  <?= $_SESSION['message'] ?>
+  <form class="modal-content" action="logindb.php" method="POST">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+      <img src="img_avatar2.png" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="firstName" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required>
+        
+      <button type="submit" name="submit">LOGIN</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw"><a href="forget1.php">Forgot password?</a></span>
+    </div>
+  </form>
+</div>
+
+
+
+
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+</body>
+</html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    
+body,html {font-family: Arial, Helvetica, sans-serif;height:100%;margin:0;background-image: url("image.jpeg");background-repeat: no-repeat;background-size: cover;}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #18801c;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 30%;
+  border-radius: 40%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: rgb(209, 10, 10);
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+.button
+{
+  background-color: #17ffff; 
+  border: none;
+  color: #ff6666;
+  padding: 20px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 2px 1px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+</style>
+</head>
+<body>
+  <div class="container"></div>
+  <div class="Center">
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    
+<center><button class="button" onclick="document.getElementById('id01').style.display='block'" style="width:auto;"><b>LOGIN</b></button>
+<button class="button" onclick="document.getElementById('id02').style.display='block'" style="width:auto;"><b>SIGN UP</b></button></div></center>
+</div>
+
+<div id="id01" class="modal">
+  
+  <form class="modal-content animate" action="ls1.php" method="post">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+      <img src="img_avatar2.png" alt="Avatar" class="avatar">
+    </div>
+
+       <div class="container">
+      <label for="email1"><b>Enter Email</b></label>
+      <input type="text" placeholder="Enter Email" name="email1" required>
+
+      <label for="pass"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="pass" required>
+        
+      <button type="submit" name="submit">LOGIN</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw"><a href="forget.php">Forgot password?</a></span>
+    </div>
+  </form>
+</div>
+
+<div id="id02" class="modal">
+  <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+  
+  <form class="modal-content" action="connect.php" method="post">
+    <div class="container">
+    <div class="row col-md-6 col-md-offset-3">
+      <div class="panel panel-primary">
+        <div class="panel-heading text-center">
+          <h1>Registration Form</h1>
+        </div>
+  
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="firstName"
+        name="firstName"
+      />
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="lastName"
+        name="lastName"
+      />
+    </div>
+    
+    <div class="form-group">
+      <label for="gender">Gender</label>
+      <div>
+        <label for="male" class="radio-inline">
+          <input
+            type="radio"
+            name="gender"
+            value="m"
+            id="male"
+          />Male</label
+        >
+        <label for="female" class="radio-inline"
+          ><input
+            type="radio"
+            name="gender"
+            value="f"
+            id="female"
+          />Female</label
+        >
+        <label for="others" class="radio-inline"
+          ><input
+            type="radio"
+            name="gender"
+            value="o"
+            id="others"
+          />Others</label
+        >
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="number">Phone Number</label>
+        <input
+          type="number"
+          class="form-control"
+          id="number"
+          name="number"
+        />
+      </div>
+    
+    
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="text"
+        class="form-control"
+        id="email"
+        name="email"
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Retype Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password1"
+        name="password1"
+      />
+    </div>
+    
+      <input type="submit" class="btn btn-primary" />
+    </div>
+  </form>
+  <div class="panel-footer text-right">
+    
+  </div>
+</div>
+</div>
+</div>
+
+
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+var modal = document.getElementById('id02');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+</body>
+</html>
+<?php
+$dbhandle = mysqli_connect("localhost","root","")
+or die("Unable to connect to MySQL"); 
+echo ""; 
+$selected = mysqli_select_db($dbhandle, "registration")
+or die("Could not select examples");
+if(isset($_REQUEST["submit"]))
+{
+    $email1=$_REQUEST["email1"];
+    $pass=$_REQUEST["pass"];
+    $query=mysqli_query($dbhandle,"select * from registration where email='$email1' && password='$pass'");
+    $rowcount=mysqli_num_rows($query);
+    if($rowcount==true)
+    {
+        header('Location: button1.html');
+    }
+    else{
+        echo"Invalid";
+    }
+
+}
+?>
+<?php
+session_start();
+$dbhandle = mysqli_connect("localhost","root","")
+or die("Unable to connect to MySQL"); 
+echo ""; 
+
+$selected = mysqli_select_db($dbhandle, "registration")
+or die("Could not select examples");
+$_SESSION['message']='';
+if(isset($_REQUEST["submit"]))
+{
+    $email=$_REQUEST["email"];
+    $sql="select * from registration where email='$email'";
+    $result=mysqli_query($dbhandle,$sql);
+    if(mysqli_num_rows($result))
+    {
+		$_SESSION['email']=$email;
+        header("location:newpass.php");
+    }
+    else{
+        echo '<script>alert("YOU ARE NOT A USER OF AMMAN TRAVELS SO FAR! REGISTER TO JOIN US!")</script>';
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Password Reset</title>
+	<link rel="stylesheet" href="main.css">
+</head>
+<body>
+	<form class="login-form" method="post">
+		<h2 class="form-title">PASSWORD RESET</h2>
+				<div class="form-group">
+			<label>Enter Your Email ID</label>
+			<input type="text" name="email">
+		</div>
+		
+		<div class="form-group">
+			<button type="submit" name="submit" class="login-btn">Submit</button>
+		</div>
+		
+	</form>
+</body>
+</html>
+<?php
+session_start();
+$dbhandle = mysqli_connect("localhost","root","")
+or die("Unable to connect to MySQL"); 
+echo ""; 
+
+$selected = mysqli_select_db($dbhandle, "registration")
+or die("Could not select examples");
+$_SESSION['message']='';
+if(isset($_REQUEST["submit"]))
+{
+    $email=$_REQUEST["email"];
+    $sql="select * from registration where email='$email'";
+    $result=mysqli_query($dbhandle,$sql);
+    if(mysqli_num_rows($result))
+    {
+		$_SESSION['email']=$email;
+        header("location:newpass.php");
+    }
+    else{
+        echo '<script>alert("YOU ARE NOT A USER OF  AMMAN TRAVELS SO FAR! REGISTER TO JOIN US!")</script>';
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Password Reset</title>
+	<link rel="stylesheet" href="main.css">
+</head>
+<body>
+	<form class="login-form" method="post">
+		<h2 class="form-title">PASSWORD RESET</h2>
+				<div class="form-group">
+			<label>Enter Your Email ID</label>
+			<input type="text" name="email">
+		</div>
+		
+		<div class="form-group">
+			<button type="submit" name="submit" class="login-btn">Submit</button>
+		</div>
+		
+	</form>
+</body>
+</html>
+<?php
+if(isset($_POST['firstName']) || isset($_POST['lastName']) || isset($_POST['gender']) || isset($_POST['number']) || isset($_POST['email']) || isset($_POST['password']) || isset($_POST['password1']))
+	$firstName = $_POST['firstName'];
+	$lastName = $_POST['lastName'];
+	$gender = $_POST['gender'];
+	$number = $_POST['number'];
+	$email = $_POST['email'];
+	$password = $_POST['password'];
+	$password1 = $_POST['password1'];
+
+	// Database connection
+	$conn = new mysqli('localhost','root','','registration');
+	if($conn->connect_error){
+		echo "$conn->connect_error";
+		die("Connection Failed : ". $conn->connect_error);
+	} else {
+		$stmt = $conn->prepare("insert into registration(firstName, lastName, gender,number, email, password,password1) values(?, ?, ?, ?, ?, ?,?)");
+		$stmt->bind_param("sssisss", $firstName, $lastName, $gender,$number, $email, $password, $password1);
+		$execval = $stmt->execute();
+		
+		echo "<h1>Registration Successful!!</h1>";
+		$stmt->close();
+		$conn->close();
+	}
+?>
+<html lang="en" class="full-height">
+    <head>
+        <style>
+            #button{
+left: 490px;
+  top: 360px;
+  position:fixed;
+  z-index:1
+}
+#videobg{
+    min-width:100%;
+    min-height:100%;
+    width: auto;
+    height:auto;
+    position:fixed;
+    z-index:-1;
+}
+.button
+{
+  background-color: #17ffff; 
+  border: none;
+  color: #ff6666;
+  padding: 20px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 1px 4px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+
+}
+
+
+}
+        </style>
+    </head>
+    <body>
+
+      <!-- Main navigation -->
+      <header>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+          <div class="container">
+
+              
+            </div>
+          </div>
+        </nav>
+        <!-- Navbar -->
+        <!-- Full Page Intro -->
+        <div class="view">
+          <video class="video-intro" id ="videobg" poster="https://mdbootstrap.com/img/Photos/Others/background.jpg" playsinline autoplay muted loop>
+            <source src="https://mdbootstrap.com/img/video/animation.mp4" type="video/mp4">
+                
+          </video>
+          <!-- Mask & flexbox options-->
+          <div class="mask rgba-gradient align-items-center">
+            <div id="button">
+              <center>
+                <button class="button" type="button"class="button" onclick="window.location.href='wfp.html'"><b>BOOK YOUR JOURNEY</b></button>
+              </center>
+              </div>
+              
+            <!-- Content -->
+            <div class="container px-md-3 px-sm-0">
+              <!--Grid row-->
+              <div class="row wow fadeIn">
+                <!--Grid column-->
+                <div class="col-md-12 mb-4 white-text text-center wow fadeIn">
+                  <hr class="hr-light my-4 w-75">
+                  </a>
+                </div>
+                <!--Grid column-->
+              </div>
+              <!--Grid row-->
+            </div>
+            <!-- Content -->
+          </div>
+<?php  
+ $connect = mysqli_connect("localhost", "root", "", "registration");  
+ $query = "SELECT * FROM register ORDER BY date desc";  
+ $result = mysqli_query($connect, $query);  
+ ?>  
+ <!DOCTYPE html>  
+ <html>  
+      <head>  
+           <title>Customer1</title>  
+           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>  
+           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+           <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  
+           <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		   
+		   <style>
+		   body {background-image: url("image.jpeg");background-repeat: no-repeat;background-size: cover;}
+		   </style>
+      </head>  
+      <body>  
+           <br /><br />  <b>
+           <div class="container" style="width:900px;color:white;">  
+                <h2 align="center">CUSTOMER REPORT</h2> 
+                <br>
+                <br>
+                <div class="col-md-3">  
+                     <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" />  
+                </div>  
+                <div class="col-md-3">  
+                     <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" />  
+                </div>  
+                <div class="col-md-5">  
+                     <input type="button" name="filter" id="filter" value="SEARCH" class="btn btn-info" />  
+                </div>  
+                <div style="clear:both"></div>                 
+                <br />  
+                <br>
+                <div id="order_table">  
+                     <table class="table table-bordered">  
+                          <tr>  
+                               <th width="15%">Customer Name</th>  
+                               <th width="15%">Departure</th>  
+                               <th width="10%">Arrival</th>  
+                               <th width="20%">Date</th>  
+                               <th width="15%">Phone Number</th>  
+                               <th width="15%">Passengers</th>
+                          </tr>  
+                     <?php  
+                     while($row = mysqli_fetch_array($result))  
+                     {  
+                     ?>  
+                          <tr>  
+                               <td><?php echo $row["cun"]; ?></td>  
+                               <td><?php echo $row["dep"]; ?></td>  
+                               <td><?php echo $row["arri"]; ?></td>  
+                               <td><?php echo $row["date"]; ?></td>  
+                               <td><?php echo $row["pn"]; ?></td>  
+                               <td><?php echo $row["pas"]; ?></td>  
+                          </tr>  
+                     <?php  
+                     }  
+                     ?>  
+                     </table>  
+                </div>  
+           </div> </b> 
+      </body>  
+ </html>  
+ <script>  
+      $(document).ready(function(){  
+           $.datepicker.setDefaults({  
+                dateFormat: 'yy-mm-dd'   
+           });  
+           $(function(){  
+                $("#from_date").datepicker();  
+                $("#to_date").datepicker();  
+           });  
+           $('#filter').click(function(){  
+                var from_date = $('#from_date').val();  
+                var to_date = $('#to_date').val();  
+                if(from_date != '' && to_date != '')  
+                {  
+                     $.ajax({  
+                          url:"filter.php",  
+                          method:"POST",  
+                          data:{from_date:from_date, to_date:to_date},  
+                          success:function(data)  
+                          {  
+                               $('#order_table').html(data);  
+                          }  
+                     });  
+                }  
+                else  
+                {  
+                     alert("Please Select Date");  
+                }  
+           });  
+      });  
+ </script>
+<!DOCTYPE html>
+<html>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;background-image: url("image.jpeg");background-repeat: no-repeat;background-size: cover;}
+* {box-sizing: border-box;}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* Add a background color when the inputs get focus */
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+}
+
+/* Add padding to container elements */
+.container {
+  padding: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: #474e5d;
+  padding-top: 50px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* Style the horizontal ruler */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+ 
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+.space
+{
+text-indent: 4em;
+
+}
+
+.close:hover,
+.close:focus {
+  color: #f44336;
+  cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  .cancelbtn, .signupbtn {
+     width: 100%;
+  }
+}
+</style>
+<body>
+<form class="modal-content" action="w1.php" method="get">
+    <div class="container">
+      <center><h1>CUSTOMER DETAILS</h1></center>
+      <hr>
+          <label for="cun"><b>Name</b></label>
+          <input
+            type="text"
+            placeholder="Enter Your Name"
+            class="form-control"
+            id="cun"
+            name="cun" required
+          />
+         <label for="dep"><b>Departure</b></label>
+          <input
+            type="text"
+            placeholder="Enter the Departure place"
+            class="form-control"
+            id="dep"
+            name="dep" required
+          />
+		  
+		  <label for="arri"><b>Arrival</b></label>
+          <input
+            type="text"
+            placeholder="Enter the Arrival place"
+			class="form-control"
+            id="arri"
+            name="arri" required
+          />
+		  
+		  <label for="date"><b>Date</b></label>
+          <input
+            type="date"
+            placeholder="Date of Journey"
+            class="form-control"
+            id="date"
+            name="date" required
+          />
+		  <br></br><br></br>
+		   <label for="time"><b>Time</b></label>
+          <input
+            type="time"
+            placeholder="Time of Journey"
+            class="form-control"
+            id="time"
+            name="time" required
+          />
+		  <br></br>
+		  <label for="pn"><b>Contact Number</b></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="pn"
+                  name="pn"
+                  placeholder="Enter Contact Number" required
+                  />  
+			
+				<label for="pas"><b>Number of Passengers</b></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="pas"
+                  name="pas"
+                  placeholder="Enter Number of Passengers" required
+                  /> 
+			<br><br>
+      
+      <div class="clearfix">
+        <button type="submit" class="btn btn-primary">ENTER</button>
+      </div>
+    </div>
+  </form>
+
+</body>
+</html>
+
+<html>
+<body>
+<?php
+if(isset($_GET['cun']) || isset($_GET['dep']) || isset($_GET['arri']) || isset($_GET['date']) || isset($_GET['time']) || isset($_GET['pn']) || isset($_GET['pas']))
+	$cun = $_GET['cun'];
+	$dep = $_GET['dep'];
+	$arri = $_GET['arri'];
+	$date = $_GET['date'];
+	$time = $_GET['time'];
+	$pn = $_GET['pn'];
+	$pas = $_GET['pas'];
+	$conn = new mysqli('localhost','root','','registration');
+	if($conn->connect_error){
+		echo "$conn->connect_error";
+		die("Connection Failed : ". $conn->connect_error);
+	} else {
+		$stmt = $conn->prepare("insert into register(cun,dep,arri,date,pn,pas,time) values(?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("sssssss", $cun, $dep ,$arri, $date, $pn, $pas, $time);
+		$execval = $stmt->execute();
+		echo "<h1>Your Record is Saved !!Here is your booking details !</h1>";
+		$sql = "SELECT id, cun, dep, arri, date, time, pn, pas FROM register where time='$time'";
+		$result = $conn->query($sql);
+		
+		 
+                     <table class="table table-bordered">  
+                          <tr>  
+                               <th width="15%">Customer Name</th>  
+                               <th width="15%">Departure</th>  
+                               <th width="10%">Arrival</th>  
+                               <th width="20%">Date</th> 
+							   <th width="20%">Time</th> 
+                               <th width="15%">Phone Number</th>  
+                               <th width="15%">Passengers</th>
+                          </tr>  
+                     <?php  
+                     while($row = mysqli_fetch_array($result))  
+                     {  
+                     ?>  
+                          <tr>  
+                               <td><?php echo $row["cun"]; ?></td>  
+                               <td><?php echo $row["dep"]; ?></td>  
+                               <td><?php echo $row["arri"]; ?></td>  
+                               <td><?php echo $row["date"]; ?></td>
+							   <td><?php echo $row["time"]; ?></td>							   
+                               <td><?php echo $row["pn"]; ?></td>  
+                               <td><?php echo $row["pas"]; ?></td>  
+                          </tr>  
+                     <?php  
+                     }  
+                     ?>  
+                     </table>  
+                </div>
+		
+		while($row = $result->fetch_assoc()) {
+        echo "id: " . $row["id"]. " - Name: " . $row["cun"]. "<br>";
+		
+    }
+		
+		
+		$stmt->close();
+		$conn->close(); 
+	}
+?>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+ <title>FEEDBACK FORM</title>
+ <style>
+  body {
+  background-image: url('image1.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+</style>
+</head>
+<body style="background-color:paleturquoise;">
+
+ <center><h1 style="font-size:300%;">FEEDBACK</h1></center><b>
+ <form action="t.php" method="get">
+ <label for="f">NAME:</label>
+ <input type="text" placeholder="Enter Name" name="f"><br><br><br><br>
+ <label for="e">E-MAIL:</label>
+ <input type="text" placeholder="Enter Email" name="e"><br><br><br><br>
+  <label for="c">LEAVE YOUR COMMENTS:</label><br><br><br>
+  <textarea name="c" rows="10" cols="100"></textarea><br><br><br><br>
+ 
+  <center>
+  
+  <button type="submit"style="background-color:red;color:white;width:150px;height:40px;" value="submit">SUBMIT</button>
+  
+  </center>
+</form>
+</b>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+ <title>THANKYOU</title>
+  <style>
+  body {
+  background-image: url('submittedimage.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+</style>
+</head>
+<body>
+<b>
+<center>
+<h1 style="font-size:600%"><br>THANK YOU!</h1>
+<p style="font-size:300%"><br>Your Submission has been received!</P>
+
+</CENTER>
+</b>
+</body>
+</html>
